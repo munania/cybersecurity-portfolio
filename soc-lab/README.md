@@ -44,7 +44,7 @@ Built a fully functional Security Operations Center environment using Wazuh SIEM
          │                 │                 │
          ▼                 ▼                 ▼
 ┌─────────────────┐ ┌─────────────┐ ┌─────────────┐
-│  Ubuntu Server  │ │ Windows 10  │ │ Windows 10  │
+│  Ubuntu Server  │ │ Windows 10  │ │ Kali Linux  │
 │   Wazuh SIEM    │ │   Client 1  │ │   Client 2  │
 │                 │ │             │ │             │
 │  Components:    │ │ Wazuh Agent │ │ Wazuh Agent │
