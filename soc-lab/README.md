@@ -272,8 +272,9 @@ Custom dashboard configurations:
 ### Prerequisites
 
 - VMware Workstation or VirtualBox
-- Ubuntu Server 22.04 ISO
+- Ubuntu Server 24 ISO
 - Windows 10 ISO
+- Kali Linux 2025 Prebuilt VMWAE image
 - Minimum 16GB RAM, 100GB disk space
 
 ### Step 1: Deploy Wazuh Server
@@ -284,7 +285,7 @@ curl -sO https://packages.wazuh.com/4.7/wazuh-install.sh
 sudo bash ./wazuh-install.sh -a
 
 # Save credentials displayed at end
-# Access dashboard: https://192.168.198.10:443
+# Access dashboard: https://192.168.100.128:443
 ```
 
 ### Step 2: Install Wazuh Agent (Windows)
@@ -294,13 +295,24 @@ sudo bash ./wazuh-install.sh -a
 Invoke-WebRequest -Uri https://packages.wazuh.com/4.x/windows/wazuh-agent-4.7.0-1.msi -OutFile wazuh-agent.msi
 
 # Install with server IP
-msiexec.exe /i wazuh-agent.msi /q WAZUH_MANAGER='192.168.198.10'
+msiexec.exe /i wazuh-agent.msi /q WAZUH_MANAGER='192.168.100.128'
 
 # Start service
 NET START WazuhSvc
 ```
 
-### Step 3: Deploy Custom Rules
+### Step 3: Install  Wazuh AGent (Kali Linux)
+``` bash
+# Download agent
+wget https://packages.wazuh.com/4.x/apt/pool/main/w/wazuh-agent/wazuh-agent_4.14.2-1_amd64.deb && sudo WAZUH_MANAGER='192.168.100.128' WAZUH_AGENT_GROUP='default' WAZUH_AGENT_NAME='kalivmAgent' dpkg -i ./wazuh-agent_4.14.2-1_amd64.deb
+
+# Start Service
+sudo systemctl daemon-reload
+sudo systemctl enable wazuh-agent
+sudo systemctl start wazuh-agent
+```
+
+### Step 4: Deploy Custom Rules
 
 ```bash
 # On Wazuh server
@@ -311,9 +323,9 @@ sudo nano /var/ossec/etc/rules/local_rules.xml
 sudo systemctl restart wazuh-manager
 ```
 
-### Step 4: Configure Dashboards
+### Step 5: Configure Dashboards
 
-1. Access Wazuh dashboard at https://192.168.198.10:443
+1. Access Wazuh dashboard at https://192.168.100.128:443
 2. Navigate to Management → Dashboard Management
 3. Import dashboard JSON files from `/dashboards/`
 
