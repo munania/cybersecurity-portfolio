@@ -69,7 +69,7 @@ python3 log-analyzer.py -f /var/log/auth.log -type ssh
 
 ---
 
-### 3. # Password Strength Auditor [View Project](https://github.com/munania/Password-Strength-Auditor)
+### 3. Password Strength Auditor [View Project](https://github.com/munania/Password-Strength-Auditor)
 
 **Purpose:** Security validation for password policies
 
