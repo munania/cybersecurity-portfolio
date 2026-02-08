@@ -69,7 +69,7 @@ python3 log-analyzer.py -f /var/log/auth.log -type ssh
 
 ---
 
-### 3. Password Strength Checker (`password-checker.py`)
+### 3. # Password Strength Auditor [View Project](https://github.com/munania/Password-Strength-Auditor)
 
 **Purpose:** Security validation for password policies
 
@@ -82,23 +82,34 @@ python3 log-analyzer.py -f /var/log/auth.log -type ssh
 
 **Usage:**
 ```python
-python3 password-checker.py
+python password_auditor.py --hibp --timeout 30
+```
+## 📊 Example Output
 
-Enter password: MyP@ssw0rd2024
+```text
+🔍 Checking breach databases...
+========================================
+Password Strength: STRONG ✅✅
+Score: 13/15
+Est. Crack Time: 84.2 years
+Entropy: 78.45 bits
+========================================
 
-[+] Length: 14 characters ✓
-[+] Uppercase: Yes ✓
-[+] Lowercase: Yes ✓
-[+] Numbers: Yes ✓
-[+] Special chars: Yes ✓
-[!] Found in breach database ✗
+Feedback:
+- ✅ NIST Compliant: Length meets guidelines, complexity rules waived.
+- ✅ Not found in known data breaches.
+- ✅ Passphrase detected (4 words)
 
-Score: 85/100 (Strong but compromised)
-Recommendation: Choose a unique password
+Hashes:
+SHA-256: 5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8
+MD5:     5f4dcc3b5aa765d61d8327deb882cf99
+
+Completed in 1.245s
+```
 ```
 
 **Skills:** API integration, cryptography, security best practices
-
+```
 ---
 
 ### 4. Vulnerability Scanner (`vulnerability-scanner.py`)
