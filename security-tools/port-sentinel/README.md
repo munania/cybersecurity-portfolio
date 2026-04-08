@@ -1,6 +1,6 @@
 # Port Sentinel 🔍
 
-A fast, multithreaded TCP port scanner built from scratch in Python — featuring banner grabbing,
+A fast, multithreaded TCP port scanner built from scratch in Python featuring banner grabbing,
 TLS/SSL detection, NVD CVE lookup, graceful Ctrl+C shutdown, and Cloudflare CDN detection.
 
 > Built as a learning project to understand how tools like Nmap work at the socket level.
@@ -11,9 +11,9 @@ TLS/SSL detection, NVD CVE lookup, graceful Ctrl+C shutdown, and Cloudflare CDN 
 
 | Feature | Detail |
 |---|---|
-| Multithreaded scanning | `ThreadPoolExecutor` — full 65,535 port scan in ~2 minutes |
+| Multithreaded scanning | `ThreadPoolExecutor` - full 65,535 port scan in ~2 minutes |
 | Banner grabbing | Automatic TLS/SSL upgrade for HTTPS ports |
-| Generic banner parser | Extracts product + version from any service — no hardcoded list |
+| Generic banner parser | Extracts product + version from any service - no hardcoded list |
 | NVD CVE lookup | Queries the National Vulnerability Database per open port (optional flag) |
 | Severity filtering | Show only CRITICAL / HIGH / MEDIUM / LOW CVEs |
 | Graceful shutdown | Clean Ctrl+C exit via `threading.Event` + `SIGINT` handler |
@@ -82,15 +82,15 @@ python port_sentinel.py 10.0.0.1 -p 1-65535 --workers 300 --timeout 1.0 -o resul
 ## Sample Output
 
 ```
-  [OPEN]  Port 21     — 220 vsftpd 2.3.4
+  [OPEN]  Port 21     - 220 vsftpd 2.3.4
     ⚠   CVE-2011-2523       [CRITICAL]    vsftpd 2.3.4 contains a backdoor introduced
                                           into the source code that allows remote...
-  [OPEN]  Port 22     — SSH-2.0-OpenSSH_7.2p2
+  [OPEN]  Port 22     - SSH-2.0-OpenSSH_7.2p2
     ⚠   CVE-2016-6210       [MEDIUM]      OpenSSH through 7.2p2 allows remote attackers
                                           to enumerate valid usernames via timing...
-  [OPEN]  Port 80     — HTTP/1.1 403 Forbidden
+  [OPEN]  Port 80     - HTTP/1.1 403 Forbidden
     ✓   No MEDIUM+ CVEs found for http 1.1
-  [OPEN]  Port 443    — (no banner)
+  [OPEN]  Port 443    - (no banner)
 
 ============================================================
   Scan finished : 2026-04-07 21:45:03
@@ -115,7 +115,7 @@ main()
         ├── ThreadPoolExecutor(max_workers)
         │     └── probe_port()        TCP connect + grab_banner()
         │           └── grab_banner() TLS upgrade or plain recv
-        ├── parse_banner()    generic regex — no hardcoded product names
+        ├── parse_banner()    generic regex - no hardcoded product names
         ├── lookup_cves()     NVD keyword search → severity filter
         └── detect_cloudflare() port fingerprint heuristic
 ```
@@ -125,7 +125,7 @@ main()
 Ports are submitted as futures to a `ThreadPoolExecutor`. Results are consumed
 via `as_completed()` so open ports print immediately rather than waiting for the
 full scan to finish. A global `threading.Event` (`stop_event`) acts as a kill-switch
-— every worker checks it before opening a socket, so Ctrl+C drains the pool cleanly
+- every worker checks it before opening a socket, so Ctrl+C drains the pool cleanly
 without a traceback.
 
 ```
@@ -175,7 +175,7 @@ edge node, not the origin server.
 
 ## CVE Lookup Setup (Optional)
 
-CVE lookup uses the [NVD REST API v2.0](https://nvd.nist.gov/developers/vulnerabilities) — free, no account required for basic use.
+CVE lookup uses the [NVD REST API v2.0](https://nvd.nist.gov/developers/vulnerabilities) - free, no account required for basic use.
 
 | | Rate limit |
 |---|---|
@@ -198,15 +198,15 @@ I wanted to understand how port scanners like Nmap work at the socket level rath
 than just using them as black boxes. Building this from scratch surfaced a number of
 real engineering problems:
 
-- **OS thread limits** — Python crashed at ~1,500 threads when creating one per port.
+- **OS thread limits** - Python crashed at ~1,500 threads when creating one per port.
   Switching to `ThreadPoolExecutor` with a bounded worker count fixed this.
-- **SIGINT propagation** — `KeyboardInterrupt` doesn't bubble cleanly through
+- **SIGINT propagation** - `KeyboardInterrupt` doesn't bubble cleanly through
   `concurrent.futures`. A `threading.Event` + `signal.signal(SIGINT, ...)` handler
   solved the graceful shutdown problem.
-- **Banner parsing at scale** — Hardcoding one regex per product doesn't scale to
+- **Banner parsing at scale** - Hardcoding one regex per product doesn't scale to
   250,000+ CVEs. Two generic patterns cover the vast majority of real-world banners
   without any product-specific knowledge.
-- **Cloudflare interference** — Scanning `webgoat.org` returned 13 open ports, none
+- **Cloudflare interference** - Scanning `webgoat.org` returned 13 open ports, none
   of which belonged to WebGoat. Recognising the Cloudflare port fingerprint
   (`2052 2053 2082 2083 2086 2087 2095 2096`) explains the result immediately.
 
@@ -227,7 +227,7 @@ real engineering problems:
 
 Port Sentinel matches Nmap's `-sT` (full connect) mode in method. The speed gap
 comes from Nmap's C implementation and raw-socket SYN scanning, which requires root
-and never completes the TCP handshake — making it ~3× faster per port.
+and never completes the TCP handshake - making it ~3× faster per port.
 
 ---
 
@@ -236,9 +236,9 @@ and never completes the TCP handshake — making it ~3× faster per port.
 | Target | Notes |
 |---|---|
 | `scanme.nmap.org` | Nmap's official sanctioned test host |
-| Metasploitable 2 | Intentionally vulnerable VM — rich open port set |
+| Metasploitable 2 | Intentionally vulnerable VM - rich open port set |
 | DVWA (Docker) | Web app vulnerability testing |
-| `webgoat.org` | Revealed Cloudflare CDN — led to CDN detection feature |
+| `webgoat.org` | Revealed Cloudflare CDN - led to CDN detection feature |
 
 ---
 
@@ -271,4 +271,4 @@ The author assumes no liability for misuse of this tool.
 
 ## License
 
-MIT — see [LICENSE](LICENSE) for details.
+MIT - see [LICENSE](LICENSE) for details.
