@@ -1,309 +1,69 @@
-# Security Automation Tools
+# Port Sentinel 🔍
 
-![Python](https://img.shields.io/badge/Python-3.11-blue)
-![Tools](https://img.shields.io/badge/Tools-5-green)
-![License](https://img.shields.io/badge/License-MIT-yellow)
-
-> Custom Python security tools for penetration testing, vulnerability assessment, and security automation.
-
-[← Back to Portfolio](../README.md)
+A fast, multithreaded TCP port scanner with banner grabbing, TLS detection,
+NVD CVE lookup, and graceful shutdown — built from scratch in Python.
 
 ---
 
-## 📋 Project Overview
+## Features
 
-Developed 5 custom security tools in Python to automate common penetration testing tasks, demonstrate programming proficiency, and solve real security challenges.
-
----
-
-## 🛠️ Tools Included
-
-### 1. Port Scanner (`port-scanner.py`)
-
-**Purpose:** Multi-threaded network reconnaissance tool
-
-**Features:**
-- ✅ TCP/UDP port scanning
-- ✅ Service version detection
-- ✅ Multi-threading for speed
-- ✅ Banner grabbing
-- ✅ Export results to CSV/JSON
-
-**Usage:**
-```python
-python3 port-scanner.py -t 192.168.1.100 -p 1-1000 -threads 10
-
-# Results:
-[+] Port 22: OPEN (SSH-2.0-OpenSSH_8.2p1)
-[+] Port 80: OPEN (Apache/2.4.41)
-[+] Port 443: OPEN (nginx/1.18.0)
-```
-
-**Skills:** Socket programming, multi-threading, network protocols
+- **Multithreaded scanning** via `ThreadPoolExecutor` — full 65,535 port scan in ~2 minutes
+- **Banner grabbing** with automatic TLS/SSL fallback for HTTPS ports
+- **Generic banner parser** — extracts product + version from any service without a hardcoded list
+- **NVD CVE lookup** — queries the National Vulnerability Database per open port (optional)
+- **Severity filtering** — show only CRITICAL, HIGH, MEDIUM, or LOW CVEs
+- **Graceful Ctrl+C shutdown** — clean exit with partial results via `threading.Event` + `SIGINT`
+- **Cloudflare / CDN detection** — warns when the target is behind a reverse proxy
+- **Flexible port selection** — single ports, ranges, or mixed (`22,80,1-1024`)
+- **Output to file** — save results with `-o results.txt`
 
 ---
 
-### 2. Log Analyzer (`log-analyzer.py`)
-
-**Purpose:** Automated threat detection in system logs
-
-**Features:**
-- ✅ Parse Apache, Nginx, SSH logs
-- ✅ Detect brute force attacks
-- ✅ Identify suspicious IPs
-- ✅ Generate threat reports
-- ✅ Integration with SIEM
-
-**Usage:**
-```python
-python3 log-analyzer.py -f /var/log/auth.log -type ssh
-
-# Output:
-[!] ALERT: Brute force detected from 203.0.113.42
-    - Failed attempts: 47
-    - Target user: root
-    - Time window: 5 minutes
-```
-
-**Skills:** Regex, log parsing, threat detection, data analysis
-
----
-
-### 3. Password Strength Auditor [View Project](https://github.com/munania/Password-Strength-Auditor)
-
-**Purpose:** Security validation for password policies
-
-**Features:**
-- ✅ Complexity requirements validation
-- ✅ Common password detection
-- ✅ Breach database check (HIBP API)
-- ✅ Entropy calculation
-- ✅ Policy compliance scoring
-
-**Usage:**
-```python
-python password_auditor.py --hibp --timeout 30
-```
-## 📊 Example Output
-
-```text
-🔍 Checking breach databases...
-========================================
-Password Strength: STRONG ✅✅
-Score: 13/15
-Est. Crack Time: 84.2 years
-Entropy: 78.45 bits
-========================================
-
-Feedback:
-- ✅ NIST Compliant: Length meets guidelines, complexity rules waived.
-- ✅ Not found in known data breaches.
-- ✅ Passphrase detected (4 words)
-
-Hashes:
-SHA-256: 5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8
-MD5:     5f4dcc3b5aa765d61d8327deb882cf99
-
-Completed in 1.245s
-```
-```
-
-**Skills:** API integration, cryptography, security best practices
-```
----
-
-### 4. Vulnerability Scanner (`vulnerability-scanner.py`)
-
-**Purpose:** Basic web application security scanner
-
-**Features:**
-- ✅ SQL injection detection
-- ✅ XSS vulnerability scanning
-- ✅ Directory listing check
-- ✅ Security header analysis
-- ✅ SSL/TLS configuration test
-
-**Usage:**
-```python
-python3 vulnerability-scanner.py -u https://example.com
-
-[!] Vulnerability Found: SQL Injection
-    Location: /search.php?q=
-    Severity: Critical
-    Payload: ' OR '1'='1
-
-[!] Security Issue: Missing Headers
-    X-Frame-Options: Not Set
-    X-Content-Type-Options: Not Set
-
-[+] Report saved: scan-report-2026-01-31.html
-```
-
-**Skills:** HTTP requests, vulnerability detection, automated testing
-
----
-
-### 5. Hash Cracker (`hash-cracker.py`)
-
-**Purpose:** Password hash analysis and recovery
-
-**Features:**
-- ✅ Multiple hash types (MD5, SHA1, SHA256)
-- ✅ Dictionary attacks
-- ✅ Rainbow table lookups
-- ✅ Wordlist generation
-- ✅ Performance optimization
-
-**Usage:**
-```python
-python3 hash-cracker.py -hash 5f4dcc3b5aa765d61d8327deb882cf99 -wordlist rockyou.txt
-
-[*] Hash Type: MD5
-[*] Attempting to crack...
-[+] CRACKED! Hash: password
-[*] Attempts: 1,247
-[*] Time: 0.8 seconds
-```
-
-**Skills:** Cryptography, optimization, algorithm efficiency
-
----
-
-## 📊 Code Statistics
-
-```
-Total Lines of Code:     2,500+
-Total Functions:         45+
-Error Handling:          100% coverage
-Documentation:           Complete docstrings
-Test Coverage:           85%
-```
-
----
-
-## 🎯 Skills Demonstrated
-
-### Programming
-- ✅ Python 3.11 (OOP, functional programming)
-- ✅ Standard library (socket, threading, re, hashlib)
-- ✅ Third-party libraries (requests, BeautifulSoup, colorama)
-
-### Security Concepts
-- ✅ Network protocols (TCP/UDP)
-- ✅ Cryptography (hashing, encryption)
-- ✅ Web vulnerabilities (OWASP Top 10)
-- ✅ Log analysis and threat detection
-
-### Software Engineering
-- ✅ Clean code principles
-- ✅ Error handling and validation
-- ✅ Documentation and comments
-- ✅ Modular design
-
----
-
-## 📁 Repository Structure
-
-```
-security-tools/
-│
-├── README.md
-│
-├── port-scanner.py           # Network reconnaissance
-├── log-analyzer.py           # Threat detection
-├── password-checker.py       # Security validation
-├── vulnerability-scanner.py  # Web app testing
-├── hash-cracker.py          # Password recovery
-│
-├── requirements.txt          # Dependencies
-├── tests/                    # Unit tests
-│   ├── test_port_scanner.py
-│   ├── test_log_analyzer.py
-│   └── ...
-│
-└── docs/                     # Documentation
-    ├── usage-guide.md
-    └── development.md
-```
-
----
-
-## 🚀 Installation & Usage
-
-### Prerequisites
+## Installation
 
 ```bash
-# Python 3.11+
-python3 --version
-
-# Install dependencies
+git clone https://github.com/<your-username>/port-sentinel.git
+cd port-sentinel
 pip install -r requirements.txt
 ```
 
-### Quick Start
+---
+
+## Usage
 
 ```bash
-# Clone repository
-git clone https://github.com/yourusername/security-tools.git
-cd security-tools
-
-# Make executable
-chmod +x *.py
-
-# Run tool
-python3 port-scanner.py --help
+python port_sentinel.py <target> [options]
 ```
 
----
+### Examples
 
-## 📚 Learning Resources
+```bash
+# Scan default ports (1–1024)
+python port_sentinel.py scanme.nmap.org
 
-### Developed Using
-- Python Official Documentation
-- OWASP Testing Guide
-- Black Hat Python (Book)
-- Real Python Tutorials
+# Scan specific ports
+python port_sentinel.py 192.168.1.1 -p 22,80,443
 
-### Inspired By
-- Nmap (port scanner)
-- Nikto (vulnerability scanner)
-- John the Ripper (hash cracker)
+# Scan a range with CVE lookup, show only HIGH+ CVEs
+python port_sentinel.py 10.0.0.1 -p 1-1024 --cve --min-severity HIGH
 
----
+# Full scan with custom workers, timeout, and file output
+python port_sentinel.py 10.0.0.1 -p 1-65535 --workers 300 --timeout 1.0 -o results.txt
+```
 
-## 🎓 Related Projects
+### All Options
 
-- [SOC Lab](../soc-lab/) - Log analyzer integrated with Wazuh
-- [Web Pentesting](../webapp-pentesting/) - Vulnerability scanner used here
-- [Network Analysis](../network-analysis/) - Port scanner for reconnaissance
-
----
-
-## 📝 Blog Posts
-
-- **[How I Built a SOC Lab for $0](https://medium.com/@munaniadeno)** - Complete guide to home SIEM setup
-- **[SQL Injection Deep Dive: From Detection to Database Takeover](https://medium.com/@munaniadeno)** - Technical analysis
-- **[Active Directory Attack Techniques: A Practical Guide](https://medium.com/@munaniadeno)** - AD security guide
+| Flag | Default | Description |
+|------|---------|-------------|
+| `target` | required | IP address or hostname |
+| `-p, --ports` | `1-1024` | Ports: `80`, `22,80,443`, `1-1024`, `1-1024,8080` |
+| `--cve` | off | Enable NVD CVE lookup per open port |
+| `--min-severity` | `MEDIUM` | CVE threshold: `CRITICAL` `HIGH` `MEDIUM` `LOW` |
+| `--workers` | auto | Concurrent threads (1–500) |
+| `--timeout` | `0.5` | Per-connection timeout in seconds |
+| `-o, --output` | none | Save results to file |
+| `-v, --verbose` | off | Show closed/filtered ports too |
 
 ---
 
-## 🤝 Contributing
-
-Contributions welcome! Please:
-1. Fork the repository
-2. Create feature branch
-3. Submit pull request
-
----
-
-## 📧 Contact
-
-**Questions about this project?**
-
-- 📧 Email: munaniadeno@gmail.com
-- 💼 LinkedIn: [Your Profile](https://www.linkedin.com/in/dennis-munania/)
-- 💻 GitHub: [Your Profile](https://github.com/munania/)
----
-
-**Last Updated:** January 31, 2026  
-[← Back to Portfolio](../README.md)
+## Sample Output
