@@ -18,30 +18,32 @@ Developed 5 custom security tools in Python to automate common penetration testi
 
 ## 🛠️ Tools Included
 
-### 1. Port Scanner (`port-scanner.py`)
+# Port Sentinel (`port_sentinel.py`)
 
-**Purpose:** Multi-threaded network reconnaissance tool
+**Purpose:** Multi-threaded network reconnaissance tool with CVE intelligence
 
 **Features:**
-- ✅ TCP/UDP port scanning
-- ✅ Service version detection
-- ✅ Multi-threading for speed
-- ✅ Banner grabbing
-- ✅ Export results to CSV/JSON
+- ✅ TCP port scanning — single ports, ranges, or mixed (`22,80,1-1024`)
+- ✅ Service version detection via banner grabbing (TLS/SSL fallback included)
+- ✅ Multi-threading for speed (`ThreadPoolExecutor` — 65,535 ports in ~2 min)
+- ✅ NVD CVE lookup per open port with severity filtering
+- ✅ Graceful Ctrl+C shutdown — clean exit with partial results
+- ✅ Cloudflare / CDN detection via port fingerprinting
+- ✅ Export results to file with `-o results.txt`
 
 **Usage:**
-```python
-python3 port-scanner.py -t 192.168.1.100 -p 1-1000 -threads 10
+```bash
+python3 port_sentinel.py 192.168.1.1 -p 1-1024 --cve --min-severity HIGH -o results.txt
 
-# Results:
-[+] Port 22: OPEN (SSH-2.0-OpenSSH_8.2p1)
-[+] Port 80: OPEN (Apache/2.4.41)
-[+] Port 443: OPEN (nginx/1.18.0)
+
+# Output:
+  [OPEN]  Port 22     — SSH-2.0-OpenSSH_7.2p2
+    ⚠   CVE-2016-6210  [MEDIUM]   OpenSSH through 7.2p2 allows remote attackers to...
+  [OPEN]  Port 80     — HTTP/1.1 200 OK
+    ✓   No MEDIUM+ CVEs found for http 1.1
 ```
 
-**Skills:** Socket programming, multi-threading, network protocols
-
----
+**Skills:** Socket programming, multi-threading, TLS/SSL, NVD API integration, network protocols
 
 ### 2. Log Analyzer (`log-analyzer.py`)
 
